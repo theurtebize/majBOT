@@ -15,5 +15,5 @@ $convert64
 #Création de la clé registre
 
 
-#test2
+
 $closeACK = FRX_Socket-Listen-Close -socket $Socket

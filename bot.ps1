@@ -9,7 +9,7 @@ $gitLink = 'https://raw.githubusercontent.com/theurtebize/majBOT/master/bot.ps1?
 # Récupération du git
 Invoke-WebRequest -Uri $gitLink -UseBasicParsing -OutFile 'C:\lib\botv1.ps1'
 
-#test
+#test5000
 
 
 $closeACK = FRX_Socket-Listen-Close -socket $Socket

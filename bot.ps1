@@ -4,7 +4,7 @@ $version = 1
 
 function check_version{
 
-Invoke-WebRequest https://github.com/theurtebize/majBOT/blob/master/bot.ps1 -OutFile c:\bot.ps1
+Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/theurtebize/majBOT/master/bot.ps1?token=ADGCY3BOHGDYLGLVPLYBRQS6IVVT2'
 
 }
 

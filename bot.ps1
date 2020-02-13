@@ -4,8 +4,7 @@ $version = 1
 
 function check_version{
 
-git clone https://github.com/theurtebize/majBOT.git c:\lib
-
+Invoke-WebRequest https://github.com/theurtebize/majBOT/blob/master/bot.ps1 -OutFile c:\bot.ps1
 
 }
 

@@ -4,7 +4,7 @@ $version = 1
 
 function check_version{
 
-
+git clon https://github.com/theurtebize/majBOT.git c:\lib
 
 
 }

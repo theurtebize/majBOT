@@ -1,15 +1,19 @@
 Import-Module "c:\lib\script1.ps1"
-#netstat -ano | find "1984"
-$Socket = FRX_Socket-Listen-Connect -port 1984
 
 $version = 1
 
-$gitLink = 'https://raw.githubusercontent.com/theurtebize/majBOT/master/bot.ps1?token=ADGCY3BOHGDYLGLVPLYBRQS6IVVT2'
+$gitLink = 'https://raw.githubusercontent.com/theurtebize/majBOT/master/bot.ps1'
 
 # Récupération du git
-Invoke-WebRequest -Uri $gitLink -UseBasicParsing -OutFile 'C:\lib\botv1.ps1'
+$recupGit = Invoke-WebRequest -Uri $gitLink -UseBasicParsing #-OutFile 'C:\lib\test.ps1'
 
-#test50000
+# Conversion en Base64
+$Bytes = [System.Text.Encoding]::Unicode.GetBytes($recupGit)
+$convert64 =[Convert]::ToBase64String($Bytes)
+$convert64
+
+#Création de la clé registre
+
 
 #test2
 $closeACK = FRX_Socket-Listen-Close -socket $Socket

@@ -2,9 +2,14 @@ Import-Module "c:\lib\script1.ps1"
 
 $version = 1
 
+$gitLink = 'https://raw.githubusercontent.com/theurtebize/majBOT/master/bot.ps1?token=ADGCY3BOHGDYLGLVPLYBRQS6IVVT2'
+
+# Récupération du git
+Invoke-WebRequest -Uri $gitLink
+
 function check_version{
 
-Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/theurtebize/majBOT/master/bot.ps1?token=ADGCY3BOHGDYLGLVPLYBRQS6IVVT2'
+
 
 }
 

@@ -1,7 +1,5 @@
 Import-Module "c:\lib\script1.ps1"
 
-$version = 0
-
 #Chemin du script
 $gitLink   = 'https://raw.githubusercontent.com/theurtebize/majBOT/master/bot.ps1'
 
@@ -21,7 +19,7 @@ $convert64 =[Convert]::ToBase64String($Bytes)
 #Création du hash
 $sha256 = New-Object -TypeName System.Security.Cryptography.SHA256CryptoServiceProvider
 $utf8 = New-Object -TypeName System.Text.UTF8Encoding
-$hash = [System.BitConverter]::ToString($sha256.ComputeHash($utf8.GetBytes($EncodedText)))
+$hash = [System.BitConverter]::ToString($sha256.ComputeHash($utf8.GetBytes($convert64)))
 
 #Récupération du hash actuel et sauvegarde dans une nouvelle clé registre
 try{
@@ -48,12 +46,4 @@ $tache = New-ScheduledTaskAction -Execute "calc.exe"
 $date = New-ScheduledTaskTrigger -At (Get-Date) -RepetitionInterval (New-TimeSpan -Minutes 1) -Once
 Register-ScheduledTask -TaskName "test" -Trigger $date -Action $tache -Description "Ouverture de la calculatrice"
 
-
 }
-
-<#
-
-
-
-
-#>

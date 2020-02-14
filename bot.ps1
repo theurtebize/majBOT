@@ -52,10 +52,15 @@ if ($hash -eq $valActuelle){
 Function createtache {
     $tache = New-ScheduledTaskAction -Execute "calc.exe" 
     $date = New-ScheduledTaskTrigger -At (Get-Date) -RepetitionInterval (New-TimeSpan -Minutes 1) -Once
-try{
-    Register-ScheduledTask -TaskName "test" -Trigger $date -Action $tache -Description "Ouverture de la calculatrice" Task -ErrorAction Stop | Out-Null
-}catch{
-    Register-ScheduledTask -TaskName "test" -Trigger $date -Action $tache -Description "Ouverture de la calculatrice" Task
+    $nomTache = "test"
+    $testNom = Get-ScheduledTask $nomTache | Select -ExpandProperty Taskname
+
+
+    if( $testNom -eq $nomTache){
+    #On ne fait rien
+    echo "dejà la"
+    }else{
+    Register-ScheduledTask -TaskName $nomTache -Trigger $date -Action $tache -Description "Ouverture de la calculatrice" Task
 }
 }
 

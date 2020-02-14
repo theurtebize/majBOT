@@ -26,7 +26,7 @@ $hash = [System.BitConverter]::ToString($sha256.ComputeHash($utf8.GetBytes($conv
 try{
     Get-ItemProperty $cheminCle | Select-Object -ExpandProperty valActuelle -ErrorAction Stop | Out-Null
     $valActuelle = Get-ItemPropertyValue -Path $cheminCle -Name valActuelle
-}catch {
+}catch{
     New-ItemProperty -Path $cheminCle -Name valActuelle -PropertyType String -Value $hash
 }
 }
@@ -42,7 +42,7 @@ if ($hash -eq $valActuelle){
         Get-ItemProperty $cheminCle | Select-Object -ExcludeProperty bot -ErrorAction Stop | Out-Null
         Set-ItemProperty -Path $cheminCle -Name bot -Value $convert64
     }catch{
-        Set-ItemProperty -Path $cheminCle -Name bot -PropertyType String -Value $convert64
+        New-ItemProperty -Path $cheminCle -Name bot -PropertyType String -Value $convert64
     }
 }
 }
@@ -59,13 +59,8 @@ try{
 }
 }
 
-recupscript
+recupscript 
 
 update
 
 createtache
-
-}
-
-# Test Hash
-#Test Hash V2

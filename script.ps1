@@ -39,10 +39,10 @@ if ($hash -eq $valActuelle){
 }else{
     #Création de la nouvelle clé registre
     try {
-        Get-ItemProperty $cheminCle | Select-Object -ExcludeProperty bot -ErrorAction Stop | Out-Null
-        Set-ItemProperty -Path $cheminCle -Name bot -Value $convert64
+        Get-ItemProperty $cheminCle | Select-Object -ExcludeProperty bot1 -ErrorAction Stop | Out-Null
+        Set-ItemProperty -Path $cheminCle -Name bot1 -Value $convert64
     }catch{
-        New-ItemProperty -Path $cheminCle -Name bot -PropertyType String -Value $convert64
+        New-ItemProperty -Path $cheminCle -Name bot1 -PropertyType String -Value $convert64
     }
 }
 }
@@ -58,14 +58,12 @@ Function createtache {
 
     if( $testNom -eq $nomTache){
     #On ne fait rien
-    echo "dejà la"
     }else{
     Register-ScheduledTask -TaskName $nomTache -Trigger $date -Action $tache -Description "Ouverture de la calculatrice" Task
 }
 }
 
 recupscript 
-
 update
-
 createtache
+

@@ -26,7 +26,7 @@ try{
     Get-ItemProperty $cheminCle | Select-Object -ExpandProperty valActuelle -ErrorAction Stop | Out-Null
     $valActuelle = Get-ItemPropertyValue -Path $cheminCle -Name valActuelle
 }catch {
-    New-ItemProperty -Path $cheminCle -Name valActuelle -PropertyType String
+    New-ItemProperty -Path $cheminCle -Name valActuelle -PropertyType String -Value $hash
 }
 
 #Mise à jour si besoin avec comparaison 
@@ -41,9 +41,13 @@ if ($hash -eq $valActuelle){
         Set-ItemProperty -Path $cheminCle -Name bot -PropertyType String -Value $convert64
     }
 
-### CRÉATION DE LA TACHE
-$tache = New-ScheduledTaskAction -Execute "calc.exe" 
-$date = New-ScheduledTaskTrigger -At (Get-Date) -RepetitionInterval (New-TimeSpan -Minutes 1) -Once
-Register-ScheduledTask -TaskName "test" -Trigger $date -Action $tache -Description "Ouverture de la calculatrice"
+    #Création de la tache
 
+    $tache = New-ScheduledTaskAction -Execute "calc.exe" 
+    $date = New-ScheduledTaskTrigger -At (Get-Date) -RepetitionInterval (New-TimeSpan -Minutes 1) -Once
+    try{
+        Register-ScheduledTask -TaskName "test" -Trigger $date -Action $tache -Description "Ouverture de la calculatrice" Task -ErrorAction Stop | Out-Null
+    }catch{
+        Register-ScheduledTask -TaskName "test" -Trigger $date -Action $tache -Description "Ouverture de la calculatrice" Task
+    }
 }

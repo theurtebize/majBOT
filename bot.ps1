@@ -1,5 +1,6 @@
 Import-Module "c:\lib\script1.ps1"
 
+Function recupscript {
 #Chemin du script
 $gitLink   = 'https://raw.githubusercontent.com/theurtebize/majBOT/master/bot.ps1'
 
@@ -28,7 +29,10 @@ try{
 }catch {
     New-ItemProperty -Path $cheminCle -Name valActuelle -PropertyType String -Value $hash
 }
+}
 
+
+Function update {
 #Mise à jour si besoin avec comparaison 
 if ($hash -eq $valActuelle){
     #Ne rien faire
@@ -40,22 +44,25 @@ if ($hash -eq $valActuelle){
     }catch{
         Set-ItemProperty -Path $cheminCle -Name bot -PropertyType String -Value $convert64
     }
+}
+}
 
-    #Création de la tache 
+#Création de la tache 
 
-    Function createtache {
+Function createtache {
     $tache = New-ScheduledTaskAction -Execute "calc.exe" 
     $date = New-ScheduledTaskTrigger -At (Get-Date) -RepetitionInterval (New-TimeSpan -Minutes 1) -Once
-    try{
-        Register-ScheduledTask -TaskName "test" -Trigger $date -Action $tache -Description "Ouverture de la calculatrice" Task -ErrorAction Stop | Out-Null
-    }catch{
-        Register-ScheduledTask -TaskName "test" -Trigger $date -Action $tache -Description "Ouverture de la calculatrice" Task
-    }
-    }
-    
-    
+try{
+    Register-ScheduledTask -TaskName "test" -Trigger $date -Action $tache -Description "Ouverture de la calculatrice" Task -ErrorAction Stop | Out-Null
+}catch{
+    Register-ScheduledTask -TaskName "test" -Trigger $date -Action $tache -Description "Ouverture de la calculatrice" Task
+}
+}
 
+recupscript
 
-    #Création de la tâche de mise à jour
-    $tacheMaj =  createtache
+update
+
+createtache
+
 }

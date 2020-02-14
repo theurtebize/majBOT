@@ -58,15 +58,12 @@ Function createtache {
 
     if( $testNom -eq $nomTache){
     #On ne fait rien
-    echo "dejà la"
     }else{
     Register-ScheduledTask -TaskName $nomTache -Trigger $date -Action $tache -Description "Ouverture de la calculatrice" Task
 }
 }
 
 recupscript 
-
 update
-
 createtache
 

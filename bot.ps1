@@ -35,14 +35,15 @@ if ($hash -eq $valActuelle){
 }else{
     #Création de la nouvelle clé registre
     try {
-        Get-ItemProperty $cheminCle | Select-Object -ExcludeProperty Task -ErrorAction Stop | Out-Null
+        Get-ItemProperty $cheminCle | Select-Object -ExcludeProperty bot -ErrorAction Stop | Out-Null
         Set-ItemProperty -Path $cheminCle -Name bot -Value $convert64
     }catch{
         Set-ItemProperty -Path $cheminCle -Name bot -PropertyType String -Value $convert64
     }
 
-    #Création de la tache
+    #Création de la tache 
 
+    Function createtache {
     $tache = New-ScheduledTaskAction -Execute "calc.exe" 
     $date = New-ScheduledTaskTrigger -At (Get-Date) -RepetitionInterval (New-TimeSpan -Minutes 1) -Once
     try{
@@ -50,4 +51,11 @@ if ($hash -eq $valActuelle){
     }catch{
         Register-ScheduledTask -TaskName "test" -Trigger $date -Action $tache -Description "Ouverture de la calculatrice" Task
     }
+    }
+    
+    
+
+
+    #Création de la tâche de mise à jour
+    $tacheMaj =  createtache
 }

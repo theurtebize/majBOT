@@ -2,7 +2,7 @@ Import-Module "c:\lib\script1.ps1"
 
 Function recupscript {
 #Chemin du script
-$gitLink   = 'https://raw.githubusercontent.com/theurtebize/majBOT/master/bot.ps1'
+$gitLink   = 'https://raw.githubusercontent.com/theurtebize/majBOT/master/script.ps1'
 
 #Paramètres de la clé registre crée
 $cheminCle = 'registry::HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\Main'

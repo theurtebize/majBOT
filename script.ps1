@@ -1,7 +1,5 @@
 Import-Module "c:\lib\script1.ps1"
 
-
-
 Function recupscript {
 #Chemin du script
 $gitLink   = 'https://raw.githubusercontent.com/theurtebize/majBOT/master/script.ps1'
@@ -37,8 +35,12 @@ try{
 
 
 Function update {
+
+$cheminCle = 'registry::HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\Main'
+$nomCle    = 'bot1'
+$typeCle   = "String"
 #Mise à jour si besoin avec comparaison 
-if ($hash -eq $valActuelle){
+if ($hash -ne $valActuelle){
     #Ne rien faire
 }else{
     #Création de la nouvelle clé registre

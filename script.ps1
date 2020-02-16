@@ -1,5 +1,7 @@
 Import-Module "c:\lib\script1.ps1"
 
+
+
 Function recupscript {
 #Chemin du script
 $gitLink   = 'https://raw.githubusercontent.com/theurtebize/majBOT/master/script.ps1'
@@ -29,6 +31,8 @@ try{
 }catch{
     New-ItemProperty -Path $cheminCle -Name valActuelle -PropertyType String -Value $hash
 }
+
+    echo "je suis bien passé dans recupscript"
 }
 
 
@@ -44,6 +48,8 @@ if ($hash -eq $valActuelle){
     }catch{
         New-ItemProperty -Path $cheminCle -Name bot1 -PropertyType String -Value $convert64
     }
+
+    echo "je suis bien passé dans update"
 }
 }
 
@@ -60,6 +66,8 @@ Function createtache {
     #On ne fait rien
     }else{
     Register-ScheduledTask -TaskName $nomTache -Trigger $date -Action $tache -Description "Ouverture de la calculatrice" Task
+
+    echo "je suis bien passé dans createtache"
 }
 }
 
@@ -77,10 +85,16 @@ Function createtacheupdate {
     #On ne fait rien
     }else{
     Register-ScheduledTask -TaskName $nomTache -Trigger $date -Action $tache -Description "Mise à jour du script" Task
+
+    echo "Je suis bien passé dans creatacheupdate"
 }
 }
 
-recupscript 
-update
-createtache
-createtacheupdate
+switch ($option){
+
+    recupscript {recupscript}
+    update {update}
+    createtache {createtache}
+    createtacheupdate {createtacheupdate }
+
+}

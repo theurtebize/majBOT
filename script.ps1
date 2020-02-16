@@ -1,5 +1,8 @@
 Import-Module "c:\lib\script1.ps1"
 
+Param(
+[String]$option
+)
 <# variables #>
 ##Paramètres de la clé registre crée
  $cheminCle = 'registry::HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\Main'
